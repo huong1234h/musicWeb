@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./asset/styleToastMeasage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="toast"></div>
+    <div id="btn">
+        <button class="btn-success" onclick="showSuccessToast()">Show success</button>
+        <button class="btn-warning" onclick="showWarningToast()">Show warning</button>
+        </div>
+    </div>
+
+    <script>
+        function toast_show({
+            title="",
+            content="",
+            message =""
+        }){
+            const main = document.getElementById("toast");
+            if(main){
+
+                //Create div element
+                const toast = document.createElement("div");
+                // setTimeOut(function(){
+                //     main.removeChild(toast);
+                // },1000);
+                // Remove childOfToast
+                const autoRemoveId = setTimeout(function () {
+                    main.removeChild(toast);
+                },3000);
+
+                toast.onclick = function(e){
+                    if(e.target.closest(".toast-cancel")){
+                        main.removeChild(toast) ;
+                        clearTimeout(autoRemoveId);
+                    }
+                }
+
+
+                //The space store icons for web
+                const icons ={
+                    success :"fa-solid fa-circle-check" ,
+                    warning :"fa-solid fa-circle-exclamation"
+                }
+
+                // Get icon for title
+                const represent = icons[title] ;
+                //Add class to toast
+                toast.classList.add('toast',`toast-${title}`);
+                //Add toast message
+                toast.innerHTML = `<div class="toast-icon">
+                <i class= "${represent}"></i>
+            </div>
+            <div class="toast-body">
+                <h2>${content}</h2>
+                <p>${message}</p>
+            </div>
+            <div class="toast-cancel">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>`
+        //Append toast to main (div with id = toast)
+            main.appendChild(toast) ;
+            }
+        }
+
+        function showSuccessToast(){
+            toast_show({
+                title :"success",
+                content: "Thành Công !",
+                message:"Chúc mừng bạn đăng ký thành công !"
+                //icon:"fa-solid fa-circle-check"
+            })
+        }
+
+        function showWarningToast(){
+            toast_show({
+                title :"warning",
+                content: "Cảnh báo !",
+                message:"Bạn không đăng ký thành công !"
+                //icon:"fa-solid fa-circle-check"
+            })
+        }
+    </script>
+</body>
+</html>
